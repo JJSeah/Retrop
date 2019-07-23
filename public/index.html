@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="shortcut icon" href="<%= webpackConfig.output.publicPath %>favicon.ico">
+    <title>Retrop</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  </head>
+  <body>
+    <div id="app"></div>
+    <!-- Allow for injection of template based on environment -->
+    <% if (process.env.VUE_APP_APPEND) { %>
+      <script src="<%=process.env.VUE_APP_APPEND %>"></script>
+    <% }  %>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
