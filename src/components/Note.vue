@@ -55,7 +55,8 @@ export default {
   data: function () {
     return {
       dragging: false,
-      stateContent: this.content
+      stateContent: this.content,
+      color:"red",
     }
   },
 
@@ -89,25 +90,48 @@ export default {
         title:'Select a new category!',
         html:
           '<div class="btn-group">\n' +
-          '      <button class="red"\n' +
+          '      <button id="red" class="red"\n' +
           '        type="button"\n' +
           '      >\n' +
           '        Red' +
           '<div class="btn-group">\n' +
-          '      <button class="blue"\n' +
+          '      <button id="blue" class="blue"\n' +
           '        type="button"\n' +
           '      >\n' +
           '        Blue' +
           '<div class="btn-group">\n' +
-          '      <button class="yellow"\n' +
+          '      <button id="yellow" class="yellow"\n' +
           '        type="button"\n' +
           '      >\n' +
           '        Yellow' +
           '<div class="btn-group">\n' +
-          '      <button class="green"\n' +
+          '      <button id="green" class="green"\n' +
           '        type="button"\n' +
           '      >\n' +
           '        Green',
+        onBeforeOpen: () => {
+          const content = Swal.getContent()
+          const $ = content.querySelector.bind(content)
+          const red = $('#red')
+          const blue = $('#blue')
+          const yellow = $('#yellow')
+          const green = $('#green')
+          red.addEventListener('click', () => {
+            this.color = "red";
+          });
+          blue.addEventListener('click', () => {
+            this.color = "blue";
+          });
+          yellow.addEventListener('click', () => {
+            this.color = "yellow";
+          });
+          green.addEventListener('click', () => {
+            this.color = "green";
+          })
+        }
+      }).then(result => {
+        console.log(this.color)
+        this.$emit('update', this.id, { note_type: this.color })
       })
     },
     removeNote () {

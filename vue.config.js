@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const { version } = require('./package.json')
 
 module.exports = {
-  baseUrl: '/retrospective/',
+  baseUrl: '/Retrop-demo/',
 
   configureWebpack: {
     plugins: [

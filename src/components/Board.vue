@@ -151,7 +151,7 @@ export default {
     reArrange () {
       this.positioner.setState(this.board.notes)
       this.positioner.reArrange()
-    }
+    },
   },
 
   components: {

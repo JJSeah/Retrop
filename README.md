@@ -1,21 +1,17 @@
-![retrospectify screenshot](https://blog.pepf.nl/media/2016/09/retrospectify.gif "Rertrospectify screenshot")
 
-# Retrospectify
-An awesome tool for doing agile team retrospectives digitally.
-This can be useful when doing retrospectives with remote teams or when you want to keep track of retrospective outcomes over time.
-
+# Retrop
+A tool tool that allows teams to conduct retrospectives. And want to be able to keep track of the outcomes.
+Can also be used as a discussion board. 
 ## Features
 
-* Three types of notes
-* Moving around/prioritizing notes to your team's needs
-* Adding points to individual notes
+* Four different categories of post-it notes
+* Move around the notes freely
+* Edit each individual notes
+* Order notes 
 
-## Working on
- * Moving the code to the store
- * Timeboxing the meeting
 
 ## Try it!
-[Live demo](http://pepf.nl/retrospective/)
+[Live demo](https://jjseah.github.io/Retrop-demo/)
 
 ## Usage
 
@@ -30,9 +26,6 @@ npm run serve
 This will create a ```dist``` directory. Put the contents of that directory on a server and you're all set!
 
 _Loading/Saving works using LocalStorage, so make sure the app has permission to read/write from LocalStorage._
-
-### I want to build it myself from the source or contribute to the code
-Then follow these instructions, depending on what you want to do
 
 ``` bash
 # install dependencies
