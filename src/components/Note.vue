@@ -17,12 +17,12 @@
     </div>
     <!-- Note sub-menu, only shown when a note is in "edit state" -->
     <div class="menu" v-if="active">
-      <button @click.stop="incrFontSize">A+</button>
-      <button @click.stop="decFontSize">A-</button>
-      <button class="positive" @click.stop="addVote">+</button>
-      <button class="negative" @click.stop="removeVote" :disabled="votes<=0">-</button>
-      <button class="negative" @click.stop="colour">...</button>
-      <span>{{votes}}</span>
+      <button class="setting" @click.stop="incrFontSize">A+</button>
+      <button class="setting" @click.stop="decFontSize">A-</button>
+      <button class="setting" @click.stop="addVote">+</button>
+      <button class="setting" @click.stop="removeVote" :disabled="votes<=0">-</button>
+<!--      <span>{{votes}}</span>-->
+      <button class="setting" @click.stop="colour">...</button>
     </div>
   </div>
   </transition>

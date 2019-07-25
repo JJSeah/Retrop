@@ -92,6 +92,9 @@ export default {
     },
 
     addNote (type) {
+      document.getElementById("red").onmousedown = function(event) {
+        console.log(event.which)
+      }
       var placeholderText
       var terciary
       switch (type) {
@@ -135,8 +138,6 @@ export default {
               id: Math.round(Math.random() * 100000)
             }
             this.board.notes.push(note)
-            console.log(note)
-            console.log(this.board.notes)
             Swal.fire({
               type: 'success',
               html: 'Posted',

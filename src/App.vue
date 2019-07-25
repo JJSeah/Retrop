@@ -5,10 +5,10 @@
       <div class="main_menu">
         <span class="heading">Retrop</span>
         <div class="note_actions">
-          <button class="red" @click="$refs.board.addNote('red')"> Red</button>
-          <button class="blue" @click="$refs.board.addNote('blue')">Blue</button>
-          <button class="yellow" @click="$refs.board.addNote('yellow')">Yellow</button>
-          <button class="green" @click="$refs.board.addNote('green')">Green</button>
+          <button id="red" class="red" @click="addNote('red')"> {{red}}</button>
+          <button id="blue" class="blue" @click="addNote('blue')">{{blue}}</button>
+          <button id="yellow" class="yellow" @click="addNote('yellow')">{{yellow}}</button>
+          <button id="green" class="green" @click="addNote('green')">{{green}}</button>
 
           <button @click="$refs.board.reArrange()" title="Rearranges the notes by amount of votes and make them fit the current window">
             Re-arrange
@@ -32,6 +32,7 @@ import SavedBoards from './components/SavedBoards'
 import BoardExport from './boardexport'
 import bus from './bus.js'
 import moment from 'moment'
+import Swal from 'sweetalert2';
 
 export default {
   name: 'app',
@@ -44,7 +45,11 @@ export default {
     return {
       activeBoardIndex: 0,
       unsavedChanges: false,
-      boards: []
+      boards: [],
+      red: localStorage.getItem("red") || "Red",
+      blue: localStorage.getItem("blue") || "Blue",
+      yellow: localStorage.getItem("yellow") || "Yellow",
+      green: localStorage.getItem("green") || "Green",
     }
   },
 
@@ -95,13 +100,95 @@ export default {
   },
 
   methods: {
+
+    addNote (type) {
+      document.getElementById(type).onmousedown = function(event) {
+        if(event.which === 2){
+          Swal.fire({
+            title: 'Change name of category',
+            input: 'text',
+            showCancelButton: true,
+            confirmButtonClass: 'blue',
+            cancelButtonClass: 'red',
+            buttonsStyling: false,
+            preConfirm: (name) => {
+              if (name){
+                localStorage.setItem(type,name)
+                this.red()
+              }
+            }
+          }).then((res)=>
+          { if (res)
+            Swal.fire({
+              type: 'success',
+              html: 'Changed',
+              confirmButtonClass: 'btn btn-success btn-fill',
+              buttonsStyling: false
+            })})
+        }
+        else if(event.which === 1){
+          var placeholderText
+          var terciary
+          switch (type) {
+            case 'green':
+              placeholderText = 'Team Green'
+              terciary = 2.25
+              break
+            case 'yellow':
+              placeholderText = 'Team Yellow'
+              terciary = 1.5
+              break
+            case 'blue':
+              placeholderText = 'Team Blue'
+              terciary = 0.75
+              break
+            case 'red':
+              placeholderText = 'Team Red'
+              terciary = 0
+              break
+          }
+
+          Swal.fire({
+            input: 'textarea',
+            title: 'Idea',
+            showCancelButton: true,
+            confirmButtonClass: 'blue',
+            cancelButtonClass: 'red',
+            buttonsStyling: false,
+          })
+            .then((res)=>{
+              if (res.value){
+                // Note default props
+                var note = {
+                  text: res.value,
+                  note_type: type,
+                  position: this.positioner.getPositionforNew(terciary),
+                  noteSize: {w: 200, h: 150},
+                  fontSize: 1,
+                  votes: 0,
+                  order: this.getMaxOrder() + 1,
+                  id: Math.round(Math.random() * 100000)
+                }
+                this.board.notes.push(note)
+                Swal.fire({
+                  type: 'success',
+                  html: 'Posted',
+                  confirmButtonClass: 'btn btn-success btn-fill',
+                  buttonsStyling: false
+                });
+              }
+            })
+        }
+      }
+    },
+
     resetActive () {
       bus.$emit('reset-active')
     },
 
     boardTitle () {
       let today = moment().format('DD MMMM YYYY')
-      return `My retrospective  for ${today}`
+      return `My Discussion  for ${today}`
     },
 
     saveBoards () {
@@ -184,7 +271,7 @@ export default {
         }
       },
       deep: true // watch EVERYTHING
-    }
+    },
   },
 
   created () {
