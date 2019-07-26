@@ -17,6 +17,7 @@ export default {
   acceptStatement: true,
 
   bind: function (el, binding, vNode) {
+    // it force prints? print(el)
     var MouseMove = function (e) {
       var start, dx, dy, data
       start = this.start
@@ -51,7 +52,6 @@ export default {
       if (this.callbackStart) {
         this.callbackStart.call(vNode.context)
       }
-
       window.addEventListener('mousemove', this.onMouseMove)
       e.stopImmediatePropagation()
     }

@@ -92,9 +92,6 @@ export default {
     },
 
     addNote (type) {
-      document.getElementById("red").onmousedown = function(event) {
-        console.log(event.which)
-      }
       var placeholderText
       var terciary
       switch (type) {
