@@ -5,9 +5,11 @@ Can also be used as a discussion board.
 ## Features
 
 * Four different categories of post-it notes
-* Move around the notes freely
+* Move around the notes freely (not touch friendly)
 * Edit each individual notes
 * Order notes 
+* Able to change colour of note
+* Able to change name of note by right clicking the button
 
 
 ## Try it!

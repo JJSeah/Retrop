@@ -128,7 +128,7 @@ export default {
             this.color = "green";
           })
         }
-      }).then(result => {
+      }).then(() => {
         console.log(this.color)
         this.$emit('update', this.id, { note_type: this.color })
       })
