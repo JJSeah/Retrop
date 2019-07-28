@@ -4,7 +4,7 @@
 <template>
   <transition name="flip" appear>
   <div class="note" :class="nClass" :style="cStyle" v-draggable="onPositionMouseMove"
-    @click.stop="" @keyup.46="removeNote">
+       @click.stop="" @keyup.46="removeNote">
     <div>
       <textarea v-model="stateContent" :style="{ fontSize: fontSize + 'em' }"></textarea>
       <button @click="removeNote" class="note-remove">✕</button>
@@ -72,7 +72,6 @@ export default {
         style.height = `${this.noteSize.h}px`
       }
       style.zIndex = this.order
-
       return style
     },
     nClass () {

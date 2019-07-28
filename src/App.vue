@@ -1,14 +1,18 @@
-<template>
+<template xmlns:v-touch="http://www.w3.org/1999/xhtml">
   <div id="app" @click="resetActive()">
     <saved-boards :boards="boards" :active-board-index="activeBoardIndex"></saved-boards>
     <div class="board-content">
       <div class="main_menu">
         <span class="heading">Retrop</span>
         <div class="note_actions">
-          <button id="red" class="red" @click="addNote('red')"> {{red}}</button>
-          <button id="blue" class="blue" @click="addNote('blue')">{{blue}}</button>
-          <button id="yellow" class="yellow" @click="addNote('yellow')">{{yellow}}</button>
-          <button id="green" class="green" @click="addNote('green')">{{green}}</button>
+          <button id="red" class="red" @click.left="$refs.board.addNote('red')"
+          @click.right="edit('red')"> {{color.red}}</button>
+          <button id="blue" class="blue" @click="$refs.board.addNote('blue')"
+                  @click.right="edit('blue')">{{color.blue}}</button>
+          <button id="yellow" class="yellow" @click="$refs.board.addNote('yellow')"
+                  @click.right="edit('yellow')">{{color.yellow}}</button>
+          <button id="green" class="green" @click="$refs.board.addNote('green')"
+                  @click.right="edit('green')">{{color.green}}</button>
 
           <button @click="$refs.board.reArrange()" title="Rearranges the notes by amount of votes and make them fit the current window">
             Re-arrange
@@ -40,16 +44,18 @@ export default {
     Board,
     SavedBoards
   },
-
-  data: function () {
+  data(){
     return {
       activeBoardIndex: 0,
       unsavedChanges: false,
       boards: [],
-      red: localStorage.getItem("red") || "Red",
-      blue: localStorage.getItem("blue") || "Blue",
-      yellow: localStorage.getItem("yellow") || "Yellow",
-      green: localStorage.getItem("green") || "Green",
+      color:{
+        red: localStorage.getItem("red") || "Red",
+        blue: localStorage.getItem("blue") || "Blue",
+        yellow: localStorage.getItem("yellow") || "Yellow",
+        green: localStorage.getItem("green") || "Green",
+      },
+
     }
   },
 
@@ -100,88 +106,34 @@ export default {
   },
 
   methods: {
-
-    addNote (type) {
-      document.getElementById(type).onmousedown = function(event) {
-        if(event.which === 2){
-          Swal.fire({
-            title: 'Change name of category',
-            input: 'text',
-            showCancelButton: true,
-            confirmButtonClass: 'blue',
-            cancelButtonClass: 'red',
-            buttonsStyling: false,
-            preConfirm: (name) => {
-              if (name){
-                localStorage.setItem(type,name)
-                this.red()
-              }
-            }
-          }).then((res)=>
-          { if (res)
-            Swal.fire({
-              type: 'success',
-              html: 'Changed',
-              confirmButtonClass: 'btn btn-success btn-fill',
-              buttonsStyling: false
-            })})
-        }
-        else if(event.which === 1){
-          var placeholderText
-          var terciary
-          switch (type) {
-            case 'green':
-              placeholderText = 'Team Green'
-              terciary = 2.25
-              break
-            case 'yellow':
-              placeholderText = 'Team Yellow'
-              terciary = 1.5
-              break
-            case 'blue':
-              placeholderText = 'Team Blue'
-              terciary = 0.75
-              break
-            case 'red':
-              placeholderText = 'Team Red'
-              terciary = 0
-              break
+    edit(type){
+      Swal.fire({
+        title: 'Change name of category',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonClass: 'blue',
+        cancelButtonClass: 'red',
+        buttonsStyling: false,
+        preConfirm: (name) => {
+          if (name){
+            localStorage.setItem(type,name)
+            this.color[type] = name
           }
-
-          Swal.fire({
-            input: 'textarea',
-            title: 'Idea',
-            showCancelButton: true,
-            confirmButtonClass: 'blue',
-            cancelButtonClass: 'red',
-            buttonsStyling: false,
-          })
-            .then((res)=>{
-              if (res.value){
-                // Note default props
-                var note = {
-                  text: res.value,
-                  note_type: type,
-                  position: this.positioner.getPositionforNew(terciary),
-                  noteSize: {w: 200, h: 150},
-                  fontSize: 1,
-                  votes: 0,
-                  order: this.getMaxOrder() + 1,
-                  id: Math.round(Math.random() * 100000)
-                }
-                this.board.notes.push(note)
-                Swal.fire({
-                  type: 'success',
-                  html: 'Posted',
-                  confirmButtonClass: 'btn btn-success btn-fill',
-                  buttonsStyling: false
-                });
-              }
-            })
         }
-      }
+      }).then((res)=>{
+        if (res.value){
+          Swal.fire({
+            type: 'success',
+            html: 'Changed',
+            confirmButtonClass: 'btn blue',
+            buttonsStyling: false
+          })
+        }
+      })
     },
-
+    longtapHandler(){
+      console.log("long")
+    },
     resetActive () {
       bus.$emit('reset-active')
     },

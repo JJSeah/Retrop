@@ -14,8 +14,6 @@ Can also be used as a discussion board.
 [Live demo](https://jjseah.github.io/Retrop-demo/)
 
 ## Usage
-
-### I just want to use the app!
 The quickest way is to use the live demo!
 Other than that, you can clone this repository, and from the root run:
 ``` bash
