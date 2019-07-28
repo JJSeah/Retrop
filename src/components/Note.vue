@@ -199,7 +199,9 @@ export default {
       if (newText !== oldText) {
         this.$emit('update', this.id, {text: newText})
       }
-    }
+    },
+
+
   }
 }
 </script>
